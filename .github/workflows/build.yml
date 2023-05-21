@@ -17,16 +17,16 @@ jobs:
     strategy:
       matrix:
         operating-system: [ ubuntu-latest, windows-latest, macos-latest ]
-        lazarus-versions: [ stable, 2.0.12, 2.0.10 ]
+        lazarus-versions: [ stable, 2.2.2, 2.0.12 ]
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
       with:
-        submodules: true
+        submodules: false
 
     - name: Install Lazarus
-      uses: gcarreno/setup-lazarus@v3.2.7
+      uses: gcarreno/setup-lazarus@v3
       with:
         lazarus-version: ${{ matrix.lazarus-versions }}
         with-cache: false
