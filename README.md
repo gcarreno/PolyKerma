@@ -11,4 +11,4 @@
 > Poly comes from the Greek word for "many".  
 > Kerma comes from the Greek word for "coin".
 
-Implementation of a generic engine for any cryptocurrency, multuchain cryptocurrency and Web 3.0.
+Implementation of a generic engine for any solo cryptocurrency, multichain cryptocurrency and Web 3.0.
