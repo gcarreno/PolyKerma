@@ -11,7 +11,7 @@ uses
 //, testutils
 , testregistry
 , PolyKerma.Dispatcher.Interfaces
-, PolyKerma.Dispatcher.Objects
+, PolyKerma.Dispatcher
 ;
 
 type

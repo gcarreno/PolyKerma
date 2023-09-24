@@ -5,7 +5,7 @@ program PolyKermaTests;
 uses
   Classes
 , consoletestrunner
-, polykerma.test.dispatcher
+, PolyKerma.Test.Dispatcher
 ;
 
 type

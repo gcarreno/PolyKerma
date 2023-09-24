@@ -1,4 +1,4 @@
-unit PolyKerma.Dispatcher.Objects;
+unit PolyKerma.Dispatcher;
 
 {$mode objfpc}{$H+}
 
@@ -10,14 +10,6 @@ uses
 ;
 
 type
-{ TThreadSafeMessageQueue }
-  TThreadSafeMessageQueue = class(TInterfacedObject, IThreadSafeMessageQueue)
-  private
-  protected
-  public
-  published
-  end;
-
 { TDispatcher }
   TDispatcher = class(TInterfacedObject, IDispatcher)
   private
@@ -25,6 +17,9 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+
+    function Register(const AChannel: String{, const AModule: IModule}): Boolean;
+    procedure Post(const AChannel: String{, const AMessage: IMessage});
   published
   end;
 
@@ -40,6 +35,16 @@ end;
 destructor TDispatcher.Destroy;
 begin
   inherited Destroy;
+end;
+
+function TDispatcher.Register(const AChannel: String): Boolean;
+begin
+  Result:= false;
+end;
+
+procedure TDispatcher.Post(const AChannel: String);
+begin
+
 end;
 
 end.

@@ -13,8 +13,8 @@
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
-    <BuildModes Count="1">
-      <Item1 Name="Default" Default="True"/>
+    <BuildModes>
+      <Item Name="Default" Default="True"/>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -23,32 +23,32 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages Count="1">
-      <Item1>
+    <RequiredPackages>
+      <Item>
         <PackageName Value="FCL"/>
-      </Item1>
+      </Item>
     </RequiredPackages>
-    <Units Count="4">
-      <Unit0>
+    <Units>
+      <Unit>
         <Filename Value="polykermatests.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKermaTests"/>
-      </Unit0>
-      <Unit1>
+      </Unit>
+      <Unit>
         <Filename Value="dispatcher/polykerma.test.dispatcher.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Test.Dispatcher"/>
-      </Unit1>
-      <Unit2>
+      </Unit>
+      <Unit>
         <Filename Value="../src/dispatcher/polykerma.dispatcher.interfaces.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Dispatcher.Interfaces"/>
-      </Unit2>
-      <Unit3>
-        <Filename Value="../src/dispatcher/polykerma.dispatcher.objects.pas"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../src/dispatcher/polykerma.dispatcher.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="PolyKerma.Dispatcher.Objects"/>
-      </Unit3>
+        <UnitName Value="PolyKerma.Dispatcher"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -63,16 +63,16 @@
     </SearchPaths>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="3">
-      <Item1>
+    <Exceptions>
+      <Item>
         <Name Value="EAbort"/>
-      </Item1>
-      <Item2>
+      </Item>
+      <Item>
         <Name Value="ECodetoolError"/>
-      </Item2>
-      <Item3>
+      </Item>
+      <Item>
         <Name Value="EFOpenError"/>
-      </Item3>
+      </Item>
     </Exceptions>
   </Debugging>
 </CONFIG>
