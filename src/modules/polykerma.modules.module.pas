@@ -22,6 +22,7 @@ type
 
   published
   end;
+  TInterfacedModuleClass = class of TInterfacedModule;
 
 implementation
 

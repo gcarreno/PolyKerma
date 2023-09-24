@@ -25,6 +25,7 @@ type
     procedure Post(const AChannel: String; const AMessage: IMessage);
   published
   end;
+  TInterfacedDispatcherClass = class of TInterfacedDispatcher;
 
 implementation
 

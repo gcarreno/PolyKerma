@@ -20,6 +20,7 @@ type
 
   published
   end;
+  TInterfacedMessageClass = class of TInterfacedMessage;
 
 implementation
 
