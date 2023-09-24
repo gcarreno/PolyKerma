@@ -29,7 +29,7 @@
         <PackageName Value="FCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="10">
       <Unit0>
         <Filename Value="polykermatests.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -50,6 +50,36 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Dispatcher"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="messages/polykerma.test.messages.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PolyKerma.Test.Messages"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="../src/messages/polykerma.messages.interfaces.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PolyKerma.Messages.Interfaces"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="../src/messages/polykerma.messages.message.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PolyKerma.Messages.Message"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="modules/polykerma.test.module.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PolyKerma.Test.Module"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="../src/modules/polykerma.modules.interfaces.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PolyKerma.Modules.Interfaces"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="../src/modules/polykerma.modules.module.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PolyKerma.Modules.Module"/>
+      </Unit9>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -59,7 +89,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="dispatcher;../src/dispatcher"/>
+      <OtherUnitFiles Value="dispatcher;../src/dispatcher;messages;../src/messages;modules;../src/modules"/>
       <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
   </CompilerOptions>

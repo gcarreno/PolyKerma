@@ -1,4 +1,4 @@
-unit PolyKerma.Messages.Message;
+unit PolyKerma.Modules.Module;
 
 {$mode objfpc}{$H+}
 
@@ -6,12 +6,12 @@ interface
 
 uses
   Classes
-, PolyKerma.Messages.Interfaces
+, PolyKerma.Modules.Interfaces
 ;
 
 type
-{ TMessage }
-  TMessage = class(TInterfacedObject, IMessage)
+{ TModule }
+  TModule = class(TInterfacedObject, IModule)
   private
   protected
   public
@@ -25,16 +25,17 @@ implementation
 
 { TDispatcher }
 
-constructor TMessage.Create;
+constructor TModule.Create;
 begin
 
 end;
 
-destructor TMessage.Destroy;
+destructor TModule.Destroy;
 begin
   inherited Destroy;
 end;
 
 end.
+
 
 

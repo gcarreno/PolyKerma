@@ -22,12 +22,12 @@ type
   protected
   public
   published
-    procedure TestDispatherCreate;
+    procedure TestDispatcherCreate;
   end;
 
 implementation
 
-procedure TTestDispatcher.TestDispatherCreate;
+procedure TTestDispatcher.TestDispatcherCreate;
 begin
   FDispatcher:= TDispatcher.Create;
   AssertNotNull('Dispatcher not null', FDispatcher);

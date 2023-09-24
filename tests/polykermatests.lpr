@@ -6,6 +6,8 @@ uses
   Classes
 , consoletestrunner
 , PolyKerma.Test.Dispatcher
+, PolyKerma.Test.Messages
+, PolyKerma.Test.Module
 ;
 
 type
