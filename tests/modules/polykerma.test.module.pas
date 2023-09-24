@@ -29,7 +29,7 @@ implementation
 
 procedure TTestModule.TestModuleCreate;
 begin
-  FModule:= TModule.Create;
+  FModule:= TInterfacedModule.Create(nil);
   AssertNotNull('Module not null', FModule);
 end;
 

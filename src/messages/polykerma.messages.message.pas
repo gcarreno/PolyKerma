@@ -10,8 +10,8 @@ uses
 ;
 
 type
-{ TMessage }
-  TMessage = class(TInterfacedObject, IMessage)
+{ TInterfacedMessage }
+  TInterfacedMessage = class(TInterfacedObject, IMessage)
   private
   protected
   public
@@ -25,12 +25,12 @@ implementation
 
 { TDispatcher }
 
-constructor TMessage.Create;
+constructor TInterfacedMessage.Create;
 begin
 
 end;
 
-destructor TMessage.Destroy;
+destructor TInterfacedMessage.Destroy;
 begin
   inherited Destroy;
 end;

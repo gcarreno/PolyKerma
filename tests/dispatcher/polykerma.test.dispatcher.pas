@@ -29,7 +29,7 @@ implementation
 
 procedure TTestDispatcher.TestDispatcherCreate;
 begin
-  FDispatcher:= TDispatcher.Create;
+  FDispatcher:= TInterfacedDispatcher.Create;
   AssertNotNull('Dispatcher not null', FDispatcher);
 end;
 

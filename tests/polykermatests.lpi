@@ -14,8 +14,69 @@
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
-    <BuildModes Count="1">
+    <BuildModes Count="3">
       <Item1 Name="Default" Default="True"/>
+      <Item2 Name="Debug">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <Target>
+            <Filename Value="../bin/polykermatests"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="dispatcher;../src/dispatcher;messages;../src/messages;modules;../src/modules;threads;../src/threads"/>
+            <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <IOChecks Value="True"/>
+              <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
+            </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseHeaptrc Value="True"/>
+              <TrashVariables Value="True"/>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+          </Linking>
+        </CompilerOptions>
+      </Item2>
+      <Item3 Name="Release">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <Target>
+            <Filename Value="../bin/polykermatests"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="dispatcher;../src/dispatcher;messages;../src/messages;modules;../src/modules;threads;../src/threads"/>
+            <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <RunWithoutDebug Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+          </Linking>
+        </CompilerOptions>
+      </Item3>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -29,7 +90,7 @@
         <PackageName Value="FCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="10">
+    <Units Count="14">
       <Unit0>
         <Filename Value="polykermatests.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -46,40 +107,60 @@
         <UnitName Value="PolyKerma.Dispatcher.Interfaces"/>
       </Unit2>
       <Unit3>
+        <Filename Value="../src/dispatcher/polykerma.dispatcher.common.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PolyKerma.Dispatcher.Common"/>
+      </Unit3>
+      <Unit4>
         <Filename Value="../src/dispatcher/polykerma.dispatcher.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Dispatcher"/>
-      </Unit3>
-      <Unit4>
+      </Unit4>
+      <Unit5>
         <Filename Value="messages/polykerma.test.messages.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Test.Messages"/>
-      </Unit4>
-      <Unit5>
+      </Unit5>
+      <Unit6>
         <Filename Value="../src/messages/polykerma.messages.interfaces.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Messages.Interfaces"/>
-      </Unit5>
-      <Unit6>
+      </Unit6>
+      <Unit7>
         <Filename Value="../src/messages/polykerma.messages.message.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Messages.Message"/>
-      </Unit6>
-      <Unit7>
+      </Unit7>
+      <Unit8>
         <Filename Value="modules/polykerma.test.module.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Test.Module"/>
-      </Unit7>
-      <Unit8>
+      </Unit8>
+      <Unit9>
         <Filename Value="../src/modules/polykerma.modules.interfaces.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Modules.Interfaces"/>
-      </Unit8>
-      <Unit9>
+      </Unit9>
+      <Unit10>
         <Filename Value="../src/modules/polykerma.modules.module.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Modules.Module"/>
-      </Unit9>
+      </Unit10>
+      <Unit11>
+        <Filename Value="threads/polykerma.test.threads.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PolyKerma.Test.Threads"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="../src/threads/polykerma.threads.interfaces.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PolyKerma.Threads.Interfaces"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="../src/threads/polykerma.threads.thread.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PolyKerma.Threads.Thread"/>
+      </Unit13>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -89,7 +170,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="dispatcher;../src/dispatcher;messages;../src/messages;modules;../src/modules"/>
+      <OtherUnitFiles Value="dispatcher;../src/dispatcher;messages;../src/messages;modules;../src/modules;threads;../src/threads"/>
       <UnitOutputDirectory Value="../bin/lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
   </CompilerOptions>

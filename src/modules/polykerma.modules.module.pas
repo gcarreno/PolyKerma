@@ -6,16 +6,18 @@ interface
 
 uses
   Classes
+, PolyKerma.Dispatcher.Interfaces
 , PolyKerma.Modules.Interfaces
 ;
 
 type
-{ TModule }
-  TModule = class(TInterfacedObject, IModule)
+{ TInterfacedModule }
+  TInterfacedModule = class(TInterfacedObject, IModule)
   private
+    FDispatcher: IDispatcher;
   protected
   public
-    constructor Create;
+    constructor Create(const ADispatcher: IDispatcher);
     destructor Destroy; override;
 
   published
@@ -25,13 +27,14 @@ implementation
 
 { TDispatcher }
 
-constructor TModule.Create;
+constructor TInterfacedModule.Create(const ADispatcher: IDispatcher);
 begin
-
+  FDispatcher:= ADispatcher;
 end;
 
-destructor TModule.Destroy;
+destructor TInterfacedModule.Destroy;
 begin
+  FDispatcher:= nil;
   inherited Destroy;
 end;
 

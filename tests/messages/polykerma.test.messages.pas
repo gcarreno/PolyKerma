@@ -29,7 +29,7 @@ implementation
 
 procedure TTestMessages.TestMessageCreate;
 begin
-  FMessage:= TMessage.Create;
+  FMessage:= TInterfacedMessage.Create;
   AssertNotNull('Message not null', FMessage);
 end;
 

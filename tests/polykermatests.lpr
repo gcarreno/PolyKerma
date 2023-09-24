@@ -3,11 +3,19 @@ program PolyKermaTests;
 {$mode objfpc}{$H+}
 
 uses
+  {$IFDEF UNIX}
+  cthreads,
+  cmem,
+  {$ENDIF}
+  {$IFDEF HASAMIGA}
+  athreads,
+  {$ENDIF}
   Classes
 , consoletestrunner
 , PolyKerma.Test.Dispatcher
 , PolyKerma.Test.Messages
 , PolyKerma.Test.Module
+, PolyKerma.Test.Threads
 ;
 
 type
