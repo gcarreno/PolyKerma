@@ -14,7 +14,6 @@ uses
 , SysUtils
 , DateUtils
 {$ENDIF FPC_DOTTEDUNITS}
-, PolyKerma.Logging.Interfaces
 , PolyKerma.Logging.Logger
 ;
 
@@ -22,28 +21,61 @@ uses
 procedure Debug(const AMessage: String);
 procedure Debug(const ASourceFile: String; const ASourceLine: String;
   const AMessage: String);
+procedure Error(const AMessage: String);
+procedure Error(const ASourceFile: String; const ASourceLine: String;
+  const AMessage: String);
 
 var
-  Logger: ILogger;
+  Logger: TLogger;
 
 implementation
 
 procedure Debug(const AMessage: String);
 begin
-  Logger.Log(pltDebug, AMessage);
+  if Assigned(Logger) then
+  begin
+    Logger.Log(pltDebug, AMessage);
+  end;
 end;
 
 procedure Debug(const ASourceFile: String; const ASourceLine: String;
   const AMessage: String);
 begin
-  Logger.Log(pltDebug, Format('%s:%s %s', [
-    ASourceFile,
-    ASourceLine,
-    AMessage
-  ]));
+  if Assigned(Logger) then
+  begin
+    Logger.Log(pltDebug, Format('%s:%s %s', [
+      ASourceFile,
+      ASourceLine,
+      AMessage
+    ]));
+  end;
+end;
+
+procedure Error(const AMessage: String);
+begin
+  if Assigned(Logger) then
+  begin
+    Logger.Log(pltError, AMessage);
+  end;
+end;
+
+procedure Error(const ASourceFile: String; const ASourceLine: String;
+  const AMessage: String);
+begin
+  if Assigned(Logger) then
+  begin
+    Logger.Log(pltError, Format('%s:%s %s', [
+      ASourceFile,
+      ASourceLine,
+      AMessage
+    ]));
+  end;
 end;
 
 initialization
-  Logger:= TInterfacedLogger.Create;
+  Logger:= TLogger.Create;
+finalization
+  Logger.Free;
+  Logger:= nil;
 end.
 

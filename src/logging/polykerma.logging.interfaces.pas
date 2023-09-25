@@ -15,6 +15,7 @@ uses
 type
 { TLogType }
   TLogType = (
+    pltDefault,
     pltInfo,
     pltWarn,
     pltError,

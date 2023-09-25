@@ -10,79 +10,78 @@ uses
 {$ELSE FPC_DOTTEDUNITS}
   Classes
 {$ENDIF FPC_DOTTEDUNITS}
+, contnrs
+, SyncObjs
 , PolyKerma.Logging
-, PolyKerma.Dispatching.Message.Interfaces
-, PolyKerma.Threading.Interfaces
-, PolyKerma.Threading.Thread
+, PolyKerma.Dispatching.Message
 ;
 
 type
 { TProcedureProcessMessages }
-  TProcedureProcessMessages = procedure (const AMessage: IMessage) of object;
+  TProcedureProcessMessages = procedure (const AMessage: TMessage) of object;
 
-{ TInterfacedThreadProcessingMessages }
-  TInterfacedThreadProcessingMessages = class(
-    TInterfacedThread,
-    IThreadProcessMessages
-  )
+{ TThreadProcessMessages }
+  TThreadProcessMessages = class(TThread)
   private
     FProcedureProcessMessages: TProcedureProcessMessages;
-    FMessageList: IInterfaceList;
+    FListCriticalSection: TCriticalSection;
+    FMessageList: TFPObjectList;
   protected
     procedure Execute; override;
   public
     constructor Create(
       const AProcedureProcessMessages: TProcedureProcessMessages;
-      const AMessageList: IInterfaceList;
+      const AMessageList: TFPObjectList;
       const CreateSuspended: Boolean
     );
     destructor Destroy; override;
   published
   end;
-  TInterfacedThreadProcessingMessagesClass =
-    class of TInterfacedThreadProcessingMessages;
+  TThreadProcessingMessagesClass = class of TThreadProcessMessages;
 
 implementation
 
-{ TInterfacedThreadProcessingMessages }
+{ TThreadProcessMessages }
 
-constructor TInterfacedThreadProcessingMessages.Create(
+constructor TThreadProcessMessages.Create(
   const AProcedureProcessMessages: TProcedureProcessMessages;
-  const AMessageList: IInterfaceList;
+  const AMessageList: TFPObjectList;
   const CreateSuspended: Boolean
 );
 begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Thread Process Messages Create');
   FProcedureProcessMessages:= AProcedureProcessMessages;
+  FListCriticalSection:= TCriticalSection.Create;
   FMessageList:= AMessageList;
   inherited Create(CreateSuspended);
 end;
 
-destructor TInterfacedThreadProcessingMessages.Destroy;
+destructor TThreadProcessMessages.Destroy;
 begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Thread Process Messages Destroy');
+  FListCriticalSection.Free;
   inherited Destroy;
 end;
 
-procedure TInterfacedThreadProcessingMessages.Execute;
+procedure TThreadProcessMessages.Execute;
 var
-  message: IMessage;
+  message: TMessage;
 begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Thread Process Messages Execute');
   while not Terminated do
   begin
-    FMessageList.Lock;
+    FListCriticalSection.Acquire;
     try
       if FMessageList.Count > 0 then
       begin
-        message:= FMessageList[0] as IMessage;
+        message:= FMessageList[0] as TMessage;
         FProcedureProcessMessages(message);
         message:= nil;
         FMessageList.Delete(0);
       end;
       Sleep(1);
     finally
-      FMessageList.Unlock;
+      FListCriticalSection.Release;
     end;
   end;
 end;

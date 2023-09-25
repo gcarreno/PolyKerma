@@ -14,33 +14,41 @@ uses
 , SysUtils
 , DateUtils
 {$ENDIF FPC_DOTTEDUNITS}
-, PolyKerma.Logging.Interfaces
 ;
 
 type
-{ TInterfacedLogger }
-  TInterfacedLogger = class(TInterfacedObject, ILogger)
+{ TLogType }
+  TLogType = (
+    pltDefault,
+    pltInfo,
+    pltWarn,
+    pltError,
+    pltDebug
+  );
+
+{ TLogger }
+  TLogger = class(TObject)
   private
   protected
   public
     procedure Log(const ALogType: TLogType; const AMessage: String);
   published
   end;
-  TInterfacedLoggerClass = class of TInterfacedLogger;
+  TInterfacedLoggerClass = class of TLogger;
 
 implementation
 
-{ TInterfacedLogger }
+{ TLogger }
 
-procedure TInterfacedLogger.Log(const ALogType: TLogType;
+procedure TLogger.Log(const ALogType: TLogType;
   const AMessage: String);
 begin
   case ALogType of
-    pltInfo: WriteLn(Format  ('%s INFO: %s', [ DateToISO8601(Now), AMessage ]));
-    pltWarn: WriteLn(Format  ('%s WARN: %s', [ DateToISO8601(Now), AMessage ]));
-    pltError: WriteLn(Format('%s ERROR: %s', [ DateToISO8601(Now), AMessage ]));
-    pltDebug: WriteLn(Format('%s DEBUG: %s', [ DateToISO8601(Now), AMessage ]));
-  otherwise
+    pltDefault: WriteLn(Format('%s %s', [ DateToISO8601(Now), AMessage ]));
+    pltInfo: WriteLn(Format   ('%s INFO: %s', [ DateToISO8601(Now), AMessage ]));
+    pltWarn: WriteLn(Format   ('%s WARN: %s', [ DateToISO8601(Now), AMessage ]));
+    pltError: WriteLn(Format  ('%s ERROR: %s', [ DateToISO8601(Now), AMessage ]));
+    pltDebug: WriteLn(Format  ('%s DEBUG: %s', [ DateToISO8601(Now), AMessage ]));
   end;
 
 end;

@@ -103,7 +103,7 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <Units Count="14">
+    <Units Count="8">
       <Unit0>
         <Filename Value="polykermacli.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -115,65 +115,35 @@
         <UnitName Value="PolyKerma.Dispatching"/>
       </Unit1>
       <Unit2>
-        <Filename Value="../../src/dispatching/polykerma.dispatching.dispatcher.interfaces.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="PolyKerma.Dispatching.Dispatcher.Interfaces"/>
-      </Unit2>
-      <Unit3>
         <Filename Value="../../src/dispatching/polykerma.dispatching.dispatcher.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Dispatching.Dispatcher"/>
-      </Unit3>
-      <Unit4>
-        <Filename Value="../../src/modules/polykerma.modules.interfaces.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="PolyKerma.Modules.Interfaces"/>
-      </Unit4>
-      <Unit5>
+      </Unit2>
+      <Unit3>
         <Filename Value="../../src/modules/polykerma.modules.module.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Modules.Module"/>
-      </Unit5>
-      <Unit6>
-        <Filename Value="../../src/dispatching/polykerma.dispatching.message.interfaces.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="PolyKerma.Dispatching.Message.Interfaces"/>
-      </Unit6>
-      <Unit7>
+      </Unit3>
+      <Unit4>
         <Filename Value="../../src/dispatching/polykerma.dispatching.message.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Dispatching.Message"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="../../src/threading/polykerma.threading.interfaces.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="PolyKerma.Threading.Interfaces"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="../../src/threading/polykerma.threading.thread.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="PolyKerma.Threading.Thread"/>
-      </Unit9>
-      <Unit10>
+      </Unit4>
+      <Unit5>
         <Filename Value="../../src/threading/polykerma.threading.threadprocessmessages.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Threading.ThreadProcessMessages"/>
-      </Unit10>
-      <Unit11>
+      </Unit5>
+      <Unit6>
         <Filename Value="../../src/logging/polykerma.logging.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Logging"/>
-      </Unit11>
-      <Unit12>
-        <Filename Value="../../src/logging/polykerma.logging.interfaces.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="PolyKerma.Logging.Interfaces"/>
-      </Unit12>
-      <Unit13>
+      </Unit6>
+      <Unit7>
         <Filename Value="../../src/logging/polykerma.logging.logger.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKerma.Logging.Logger"/>
-      </Unit13>
+      </Unit7>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

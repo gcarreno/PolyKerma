@@ -19,9 +19,10 @@ type
   IDispatcher = Interface
   ['{1CD54522-D37B-486E-9181-A97CCF768DE9}']
     procedure Post(const AMessage: IMessage);
-    procedure ProcessMessage(const AMessage: IMessage);
+    procedure ProcessMessage(const AMessage: IMessage); virtual;
     function Register(const AChannel: String; const AModule: IModule): Boolean;
     procedure Run(const WaitFor: Boolean);
+    procedure Terminate;
   end;
 
 implementation

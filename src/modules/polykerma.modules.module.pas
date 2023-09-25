@@ -12,61 +12,74 @@ uses
   Classes
 , SysUtils
 {$ENDIF FPC_DOTTEDUNITS}
+, contnrs
 , PolyKerma.Logging
 , PolyKerma.Dispatching
-, PolyKerma.Dispatching.Dispatcher.Interfaces
-, PolyKerma.Dispatching.Message.Interfaces
-, PolyKerma.Modules.Interfaces
-, PolyKerma.Threading.Interfaces
+, PolyKerma.Dispatching.Message
 , PolyKerma.Threading.ThreadProcessMessages
 ;
 
 type
-{ TInterfacedModule }
-  TInterfacedModule = class(TInterfacedObject, IModule)
+{ TModule }
+  TModule = class(TObject)
   private
-    FDispatcher: IDispatcher;
-    FMessageList: IInterfaceList;
-    FThreadProcessMessages: IThreadProcessMessages;
+    FDispatcher: TObject;
+    FMessageList: TFPObjectList;
+    FThreadProcessMessages: TThreadProcessMessages;
 
-    procedure ProcessMessage(const AMessage: IMessage);
-    procedure Receive(const AMessage: IMessage);
+    procedure ProcessMessage(const AMessage: TMessage); virtual;
   protected
   public
-    constructor Create(const ADispatcher: IDispatcher);
+    constructor Create(const ADispatcher: TObject);
     destructor Destroy; override;
 
+    procedure Receive(const AMessage: TMessage);
   published
   end;
-  TInterfacedModuleClass = class of TInterfacedModule;
+  TModuleClass = class of TModule;
 
 implementation
 
+uses
+  PolyKerma.Dispatching.Dispatcher
+;
+
 { TDispatcher }
 
-constructor TInterfacedModule.Create(const ADispatcher: IDispatcher);
+constructor TModule.Create(const ADispatcher: TObject);
 begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Module Create');
+  // Dispatcher
   FDispatcher:= ADispatcher;
-  FMessageList:= TInterfaceList.Create;
-  FThreadProcessMessages:= TInterfacedThreadProcessingMessages.Create(
+  // Messages
+  FMessageList:= TFPObjectList.Create;
+  FMessageList.OwnsObjects:= True;
+  // Message Thread
+  FThreadProcessMessages:= TThreadProcessMessages.Create(
     @ProcessMessage,
     FMessageList,
-    False
+    True
   );
+  FThreadProcessMessages.FreeOnterminate:= False;
+  FThreadProcessMessages.Start;
   // Register
-  FDispatcher.Register(cChannelModuleIn, Self);
+  //(FDispatcher as TDispatcher).Register(cChannelModuleIn, Self);
 end;
 
-destructor TInterfacedModule.Destroy;
+destructor TModule.Destroy;
 begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Module Destroy');
+  // Message Thread
   FThreadProcessMessages.Terminate;
   FThreadProcessMessages.WaitFor;
+  FThreadProcessMessages.Free;
+  // Messages
+  FMessageList.Clear;
+  FMessageList.Free;
   inherited Destroy;
 end;
 
-procedure TInterfacedModule.ProcessMessage(const AMessage: IMessage);
+procedure TModule.ProcessMessage(const AMessage: TMessage);
 begin
   Debug({$I %FILE%}, {$I %LINE%}, Format('Module Process Message: %s', [
     AMessage.Channel
@@ -74,7 +87,7 @@ begin
   //
 end;
 
-procedure TInterfacedModule.Receive(const AMessage: IMessage);
+procedure TModule.Receive(const AMessage: TMessage);
 begin
   Debug({$I %FILE%}, {$I %LINE%}, Format('Module Receive Message: %s', [
     AMessage.Channel
@@ -83,6 +96,4 @@ begin
 end;
 
 end.
-
-
 

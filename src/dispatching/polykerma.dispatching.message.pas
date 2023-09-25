@@ -13,19 +13,14 @@ uses
 , SysUtils
 {$ENDIF FPC_DOTTEDUNITS}
 , PolyKerma.Logging
-, PolyKerma.Dispatching.Interfaces
 ;
 
 type
-{ TInterfacedMessage }
-  TInterfacedMessage = class(TInterfacedObject, IMessage)
+{ TMessage }
+  TMessage = class(TObject)
   private
     FChannel: String;
     FPayload: String;
-
-    function GetChannel: String;
-    function GetPayload: String;
-    procedure SetPayload(const APayload: String);
 
   protected
   public
@@ -33,41 +28,25 @@ type
     destructor Destroy; override;
 
     property Channel: String
-      read GetChannel;
+      read FChannel;
     property Payload: String
-      read GetPayload
-      write SetPayload;
+      read FPayload
+      write FPayload;
   published
   end;
-  TInterfacedMessageClass = class of TInterfacedMessage;
+  TMessageClass = class of TMessage;
 
 implementation
 
-{ TDispatcher }
+{ TMessage }
 
-function TInterfacedMessage.GetChannel: String;
-begin
-  Result:= FChannel;
-end;
-
-function TInterfacedMessage.GetPayload: String;
-begin
-  Result:= FPayload;
-end;
-
-procedure TInterfacedMessage.SetPayload(const APayload: String);
-begin
-  if FPayload = APayload then exit;
-  FPayload:= APayload;
-end;
-
-constructor TInterfacedMessage.Create(const AChannel: String);
+constructor TMessage.Create(const AChannel: String);
 begin
   Debug({$I %FILE%}, {$I %LINE%}, Format('Message Create: %s', [ AChannel ]));
   FChannel:= AChannel;
 end;
 
-destructor TInterfacedMessage.Destroy;
+destructor TMessage.Destroy;
 begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Message Destroy');
   inherited Destroy;

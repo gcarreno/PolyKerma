@@ -12,59 +12,82 @@ uses
   Classes
 , SysUtils
 {$ENDIF FPC_DOTTEDUNITS}
-//, contnrs
+, SyncObjs
+, contnrs
 , PolyKerma.Logging
-, PolyKerma.Dispatching.Dispatcher.Interfaces
-, PolyKerma.Dispatching.Message.Interfaces
-, PolyKerma.Modules.Interfaces
-, PolyKerma.Threading.Interfaces
+, PolyKerma.Dispatching.Message
+, PolyKerma.Modules.Module
 , PolyKerma.Threading.ThreadProcessMessages
 ;
 
 type
-{ TInterfacedDispatcher }
-  TInterfacedDispatcher = class(TInterfacedObject, IDispatcher)
+{ TDispatcher }
+  TDispatcher = class(TObject)
   private
-    FMessageList: IInterfaceList;
-    FThreadProcessMessages: IThreadProcessMessages;
+    FMessagesCriticalSection: TCriticalSection;
+    FMessageList: TFPObjectList;
+    FChannelsCriticalSection: TCriticalSection;
+    FChannelList: TFPHashObjectList;
+    FThreadProcessMessages: TThreadProcessMessages;
 
-    procedure ProcessMessage(const AMessage: IMessage);
+    procedure ProcessMessage(const AMessage: TMessage); virtual;
   protected
   public
     constructor Create;
     destructor Destroy; override;
 
-    procedure Post(const AMessage: IMessage);
-    function Register(const AChannel: String; const AModule: IModule): Boolean;
+    procedure Post(const AMessage: TMessage);
+    function Register(const AChannel: String; const AModule: TModule): Boolean;
     procedure Run(const WaitFor: Boolean);
+    procedure Terminate;
   published
   end;
-  TInterfacedDispatcherClass = class of TInterfacedDispatcher;
+  TDispatcherClass = class of TDispatcher;
 
 implementation
 
-{ TInterfacedDispatcher }
+{ TDispatcher }
 
-constructor TInterfacedDispatcher.Create;
+constructor TDispatcher.Create;
 begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Dispatcher Create');
-  FMessageList:= TInterfaceList.Create;
-  FThreadProcessMessages:= TInterfacedThreadProcessingMessages.Create(
+  // Messages
+  FMessagesCriticalSection:= TCriticalSection.Create;
+  FMessageList:= TFPObjectList.Create;
+  FMessageList.OwnsObjects:= True;
+  // Channels
+  FChannelsCriticalSection:= TCriticalSection.Create;
+  FChannelList:= TFPHashObjectList.Create(True);
+  FChannelList.OwnsObjects:= True;
+  // Message Thread
+  FThreadProcessMessages:= TThreadProcessMessages.Create(
     @ProcessMessage,
     FMessageList,
-    False
+    True
   );
+  FThreadProcessMessages.FreeOnterminate:= False;
+  FThreadProcessMessages.Start;
 end;
 
-destructor TInterfacedDispatcher.Destroy;
+destructor TDispatcher.Destroy;
 begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Dispatcher Destroy');
+  // Message Thread
   FThreadProcessMessages.Terminate;
   FThreadProcessMessages.WaitFor;
+  FThreadProcessMessages.Free;
+  // Channels
+  FChannelList.Clear;
+  FChannelList.Free;
+  FChannelsCriticalSection.Free;
+  // Messages
+  FMessageList.Clear;
+  FMessageList.Free;
+  FMessagesCriticalSection.Free;
   inherited Destroy;
 end;
 
-procedure TInterfacedDispatcher.ProcessMessage(const AMessage: IMessage);
+procedure TDispatcher.ProcessMessage(const AMessage: TMessage);
 begin
   Debug({$I %FILE%}, {$I %LINE%}, Format('Dispatcher Process Message: %s', [
     AMessage.Channel
@@ -72,20 +95,52 @@ begin
   //
 end;
 
-function TInterfacedDispatcher.Register(const AChannel: String;
-  const AModule: IModule): Boolean;
+function TDispatcher.Register(const AChannel: String;
+  const AModule: TModule): Boolean;
+var
+  modules: TFPObjectList;
 begin
-  Debug({$I %FILE%}, {$I %LINE%}, 'Dispatcher Register');
   Result:= false;
+  Debug({$I %FILE%}, {$I %LINE%}, 'Dispatcher Register');
+  FChannelsCriticalSection.Acquire;
+  try
+    try
+      modules:= FChannelList.Find(AChannel) as TFPObjectList;
+      if Assigned(modules) then
+      begin
+        modules.Add(AModule);
+      end
+      else
+      begin
+        modules:= TFPObjectList.Create;
+        modules.OwnsObjects:= True;
+        modules.Add(AModule);
+        FChannelList.Add(AChannel, modules);
+      end;
+    finally
+      FChannelsCriticalSection.Release;
+    end;
+  except
+    on E: Exception do
+    begin
+      Error({$I %FILE%}, {$I %LINE%}, 'Dispatcher Register');
+      Result:= False;
+    end;
+  end;
 end;
 
-procedure TInterfacedDispatcher.Run(const WaitFor: Boolean);
+procedure TDispatcher.Run(const WaitFor: Boolean);
 begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Dispatcher Run');
   if WaitFor then FThreadProcessMessages.WaitFor;
 end;
 
-procedure TInterfacedDispatcher.Post(const AMessage: IMessage);
+procedure TDispatcher.Terminate;
+begin
+  FThreadProcessMessages.Terminate;
+end;
+
+procedure TDispatcher.Post(const AMessage: TMessage);
 begin
   Debug({$I %FILE%}, {$I %LINE%}, Format('Dispatcher Post: %s', [
     AMessage.Channel

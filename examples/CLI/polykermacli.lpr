@@ -9,6 +9,7 @@ program PolyKermaCLI;
 uses
   {$IFDEF UNIX}
   cthreads,
+  BaseUnix,
   {$ENDIF UNIX}
 
   {$IFDEF FPC_DOTTEDUNITS}
@@ -24,21 +25,18 @@ uses
 , PolyKerma.Logging
 
   // Dispatching
-, PolyKerma.Dispatching.Dispatcher.Interfaces
+, PolyKerma.Dispatching
 , PolyKerma.Dispatching.Dispatcher
 
   // Modules
-, PolyKerma.Modules.Interfaces
 , PolyKerma.Modules.Module
 ;
 
 type
-
 { TPolyKermaCLI }
   TPolyKermaCLI = class(TCustomApplication)
   private
-    FDispatcher: IDispatcher;
-
+    FDispatcher: TDispatcher;
     procedure LoadParams;
     procedure PolyKermaSetup;
     procedure PolyKermaTearDown;
@@ -48,7 +46,13 @@ type
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
     procedure WriteHelp; virtual;
+
+    property Dispatcher: TDispatcher
+      read FDispatcher;
   end;
+
+var
+  Application: TPolyKermaCLI;
 
 { TPolyKermaCLI }
 
@@ -70,7 +74,7 @@ begin
   // quick check parameters
   ErrorOptions:= CheckOptions('h', 'help');
   if ErrorOptions <> '' then begin
-    Debug({$I %FILE%}, {$I %LINE%}, ErrorOptions);
+    Error({$I %FILE%}, {$I %LINE%}, ErrorOptions);
     Terminate(1);
     Exit;
   end;
@@ -85,16 +89,29 @@ end;
 
 procedure TPolyKermaCLI.PolyKermaSetup;
 var
-  module: IModule;
+  module: TModule;
+  //commsModule: TModuleCOmms;
+  //controllerModule: TModuleController;
+  //modelModule: TModuleModel;
 begin
-  FDispatcher:= TInterfacedDispatcher.Create;
-  module:= TInterfacedModule.Create(FDispatcher);
+  FDispatcher:= TDispatcher.Create;
+  { #todo -ogcarreno -cPolyKerma.Core : Add the Comms, Model and Controller }
+  module:= TModule.Create(FDispatcher);
+  // Registering outside the constructor just for the base class
+  FDispatcher.Register(cChannelModuleIn, module);
+  (*controllerModule:= TModuleController.Create(FDispatcher);
+  FDispatcher.Register(cChannelControllerIn, module);
+  modelModule:= TModule.Create(FDispatcher);
+  FDispatcher.Register(cChannelModelIn, modelModule);
+  commsModule:= TModule.Create(FDispatcher);
+  FDispatcher.Register(cChannelCommsIn, commsModule);*)
 end;
 
 procedure TPolyKermaCLI.PolyKermaTearDown;
 begin
-  // Not quite sure I'll need this, but just in case...
+  FDispatcher.Free;
 end;
+
 
 procedure TPolyKermaCLI.WriteHelp;
 begin
@@ -102,20 +119,33 @@ begin
   WriteLn('Usage: polykermacli [-h|--help]');
 end;
 
+{$IFDEF UNIX}
+procedure HandleSigInt(aSignal: LongInt); cdecl;
+begin
+  WriteLn(#13#10'Ctrl+C was pressed, terminating');
+  Application.Dispatcher.Terminate;
+end;
+{$ENDIF UNIX}
+
 procedure TPolyKermaCLI.DoRun;
 begin
   LoadParams;
 
   PolyKermaSetup;
+  {$IFDEF UNIX}
+  if FpSignal(SigInt, @HandleSigInt) = signalhandler(SIG_ERR) then begin
+    Error({$I %FILE%}, {$I %LINE%}, Format('Failed to install signal error: %d', [ fpGetErrno ]));
+    Halt(1);
+  end;
+  {$ENDIF UNIX}
 
   FDispatcher.Run(True);
+  PolyKermaTearDown;
 
   // stop program loop
   Terminate;
 end;
 
-var
-  Application: TPolyKermaCLI;
 begin
   Application:= TPolyKermaCLI.Create(nil);
   Application.Title:= 'PolyKerma CLI Example';
