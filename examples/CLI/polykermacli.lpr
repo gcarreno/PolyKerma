@@ -97,11 +97,18 @@ var
   //modelModule: TModuleModel;
 begin
   FDispatcher:= TDispatcher.Create;
-  { #todo -ogcarreno -cPolyKerma.Core : Add the Comms, Model and Controller }
-  module:= TModule.Create(FDispatcher);
 
+  module:= TModule.Create(FDispatcher);
   // Registering outside the constructor just for the base class
   FDispatcher.Register(cChannelModuleIn, module);
+  module:= TModule.Create(FDispatcher);
+  // Registering outside the constructor just for the base class
+  FDispatcher.Register(cChannelModuleIn, module);
+  module:= TModule.Create(FDispatcher);
+  // Registering outside the constructor just for the base class
+  FDispatcher.Register(cChannelModuleIn, module);
+
+  { #todo -ogcarreno -cPolyKerma.Core : Add the Comms, Model and Controller }
   (*controllerModule:= TModuleController.Create(FDispatcher);
   FDispatcher.Register(cChannelControllerIn, module);
   modelModule:= TModule.Create(FDispatcher);

@@ -79,22 +79,25 @@ begin
     try
       if FMessageList.Count > 0 then
       begin
-        Debug({$I %FILE%}, {$I %LINE%},
-          Format('Thread Process Messages Count <: %d', [ FMessageList.Count ])
-        );
-        message:= FMessageList.First as TMessage;
-        FProcedureProcessMessages(message);
-        //message:= nil;
-        FMessageList.Delete(FMessageList.IndexOf(message));
-        Debug({$I %FILE%}, {$I %LINE%},
-          Format('Thread Process Messages Count >: %d', [ FMessageList.Count ])
-        );
+        repeat
+          if Terminated then break;
+          Debug({$I %FILE%}, {$I %LINE%},
+            Format('Thread Process Messages Count <: %d', [ FMessageList.Count ])
+          );
+          message:= FMessageList.First as TMessage;
+          FProcedureProcessMessages(message);
+          FMessageList.Delete(FMessageList.IndexOf(message));
+          Debug({$I %FILE%}, {$I %LINE%},
+            Format('Thread Process Messages Count >: %d', [ FMessageList.Count ])
+          );
+          if Terminated then break;
+        until FMessageList.Count = 0;
       end;
-      { #todo -ogcarreno -cPolyKerma.Core : Replace this Sleep(1) with a signal trigerred from the Post }
-      Sleep(1);
     finally
       FMessagesCriticalSection.Release;
     end;
+    { #todo -ogcarreno -cPolyKerma.Core : Replace this Sleep(1) with a signal trigerred from the Post }
+    Sleep(1);
   end;
 end;
 
