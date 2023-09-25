@@ -7,8 +7,10 @@ interface
 uses
 {$IFDEF FPC_DOTTEDUNITS}
   System.Classes
+, System.SysUtils
 {$ELSE FPC_DOTTEDUNITS}
   Classes
+, SysUtils
 {$ENDIF FPC_DOTTEDUNITS}
 , contnrs
 , SyncObjs
@@ -77,11 +79,18 @@ begin
     try
       if FMessageList.Count > 0 then
       begin
-        message:= FMessageList[0] as TMessage;
+        Debug({$I %FILE%}, {$I %LINE%},
+          Format('Thread Process Messages Count <: %d', [ FMessageList.Count ])
+        );
+        message:= FMessageList.First as TMessage;
         FProcedureProcessMessages(message);
-        message:= nil;
-        FMessageList.Delete(0);
+        //message:= nil;
+        FMessageList.Delete(FMessageList.IndexOf(message));
+        Debug({$I %FILE%}, {$I %LINE%},
+          Format('Thread Process Messages Count >: %d', [ FMessageList.Count ])
+        );
       end;
+      { #todo -ogcarreno -cPolyKerma.Core : Replace this Sleep(1) with a signal trigerred from the Post }
       Sleep(1);
     finally
       FMessagesCriticalSection.Release;

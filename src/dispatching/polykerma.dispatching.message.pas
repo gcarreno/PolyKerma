@@ -27,6 +27,8 @@ type
     constructor Create(const AChannel: String);
     destructor Destroy; override;
 
+    function Copy: TMessage;
+
     property Channel: String
       read FChannel;
     property Payload: String
@@ -50,6 +52,12 @@ destructor TMessage.Destroy;
 begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Message Destroy');
   inherited Destroy;
+end;
+
+function TMessage.Copy: TMessage;
+begin
+  Result:= TMessage.Create(Self.Channel);
+  Result.Payload:= Self.Payload;
 end;
 
 end.

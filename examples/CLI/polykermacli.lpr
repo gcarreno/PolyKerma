@@ -27,6 +27,7 @@ uses
   // Dispatching
 , PolyKerma.Dispatching
 , PolyKerma.Dispatching.Dispatcher
+, PolyKerma.Dispatching.Message
 
   // Modules
 , PolyKerma.Modules.Module
@@ -90,6 +91,7 @@ end;
 procedure TPolyKermaCLI.PolyKermaSetup;
 var
   module: TModule;
+  message: TMessage;
   //commsModule: TModuleCOmms;
   //controllerModule: TModuleController;
   //modelModule: TModuleModel;
@@ -97,6 +99,7 @@ begin
   FDispatcher:= TDispatcher.Create;
   { #todo -ogcarreno -cPolyKerma.Core : Add the Comms, Model and Controller }
   module:= TModule.Create(FDispatcher);
+
   // Registering outside the constructor just for the base class
   FDispatcher.Register(cChannelModuleIn, module);
   (*controllerModule:= TModuleController.Create(FDispatcher);
@@ -105,6 +108,57 @@ begin
   FDispatcher.Register(cChannelModelIn, modelModule);
   commsModule:= TModule.Create(FDispatcher);
   FDispatcher.Register(cChannelCommsIn, commsModule);*)
+
+  { #todo -ogcarreno -cPolyKerma.Example : Needs removing after tests are done }
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+  message:= TMessage.Create(cChannelModuleIn);
+  FDispatcher.Post(message);
+
 end;
 
 procedure TPolyKermaCLI.PolyKermaTearDown;

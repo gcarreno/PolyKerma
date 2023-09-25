@@ -86,11 +86,30 @@ begin
 end;
 
 procedure TDispatcher.ProcessMessage(const AMessage: TMessage);
+var
+  modules: TFPObjectList;
+  module: TModule;
+  message: TMessage;
+  indexModules: Integer;
 begin
   Debug({$I %FILE%}, {$I %LINE%}, Format('Dispatcher Process Message: %s', [
     AMessage.Channel
   ]));
-  //
+  FChannelsCriticalSection.Acquire;
+  try
+    modules:= FChannelList.Find(AMessage.Channel) as TFPObjectList;
+    if Assigned(modules) then
+    begin
+      for indexModules:= 0 to Pred(modules.Count) do
+      begin
+        module:= modules[indexModules] as TModule;
+        message:= AMessage.Copy;
+        module.Receive(message);
+      end;
+    end;
+  finally
+    FChannelsCriticalSection.Release;
+  end;
 end;
 
 function TDispatcher.Register(const AChannel: String;

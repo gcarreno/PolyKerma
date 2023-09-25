@@ -14,7 +14,6 @@ uses
 {$ENDIF FPC_DOTTEDUNITS}
 , contnrs
 , PolyKerma.Logging
-, PolyKerma.Dispatching
 , PolyKerma.Dispatching.Message
 , PolyKerma.Threading.ThreadProcessMessages
 ;
@@ -26,6 +25,7 @@ type
     FDispatcher: TObject;
     FMessageList: TFPObjectList;
     FThreadProcessMessages: TThreadProcessMessages;
+    FName: String;
 
   protected
     procedure ProcessMessage(const AMessage: TMessage); virtual;
@@ -34,21 +34,25 @@ type
     destructor Destroy; override;
 
     procedure Receive(const AMessage: TMessage);
+
+    property Name: String
+      read FName;
   published
   end;
   TModuleClass = class of TModule;
 
 implementation
 
-uses
+{uses
   PolyKerma.Dispatching.Dispatcher
-;
+;}
 
 { TDispatcher }
 
 constructor TModule.Create(const ADispatcher: TObject);
 begin
-  Debug({$I %FILE%}, {$I %LINE%}, 'Module Create');
+  FName:= 'Base Module';
+  Debug({$I %FILE%}, {$I %LINE%}, Format('Module Create: "%s"', [ FName ]));
   // Dispatcher
   FDispatcher:= ADispatcher;
   // Messages
@@ -66,7 +70,7 @@ end;
 
 destructor TModule.Destroy;
 begin
-  Debug({$I %FILE%}, {$I %LINE%}, 'Module Destroy');
+  Debug({$I %FILE%}, {$I %LINE%}, Format('Module Destroy: "%s"', [ FName ]));
   // Message Thread
   FThreadProcessMessages.Terminate;
   FThreadProcessMessages.WaitFor;
@@ -79,15 +83,16 @@ end;
 
 procedure TModule.ProcessMessage(const AMessage: TMessage);
 begin
-  Debug({$I %FILE%}, {$I %LINE%}, Format('Module Process Message: %s', [
+  Debug({$I %FILE%}, {$I %LINE%}, Format('Module Process Message "%s": %s', [
+    FName,
     AMessage.Channel
   ]));
-  //
 end;
 
 procedure TModule.Receive(const AMessage: TMessage);
 begin
-  Debug({$I %FILE%}, {$I %LINE%}, Format('Module Receive Message: %s', [
+  Debug({$I %FILE%}, {$I %LINE%}, Format('Module Receive Message "%s": %s', [
+    FName,
     AMessage.Channel
   ]));
   FMessageList.Add(AMessage);
