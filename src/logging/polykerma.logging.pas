@@ -14,24 +14,36 @@ uses
 , SysUtils
 , DateUtils
 {$ENDIF FPC_DOTTEDUNITS}
+, PolyKerma.Logging.Interfaces
+, PolyKerma.Logging.Logger
 ;
 
-procedure DebugLn(const AMessage: String);
-procedure DebugLn(const ASourceFile: String; const ASourceLine: String;
+
+procedure Debug(const AMessage: String);
+procedure Debug(const ASourceFile: String; const ASourceLine: String;
   const AMessage: String);
+
+var
+  Logger: ILogger;
 
 implementation
 
-procedure DebugLn(const AMessage: String);
+procedure Debug(const AMessage: String);
 begin
-  WriteLn(Format('%s INFO: %s', [ DateToISO8601(Now), AMessage ]));
+  Logger.Log(pltDebug, AMessage);
 end;
 
-procedure DebugLn(const ASourceFile: String; const ASourceLine: String;
+procedure Debug(const ASourceFile: String; const ASourceLine: String;
   const AMessage: String);
 begin
-  DebugLn(Format('%s:%s %s', [ ASourceFile, ASourceLine, AMessage ]));
+  Logger.Log(pltDebug, Format('%s:%s %s', [
+    ASourceFile,
+    ASourceLine,
+    AMessage
+  ]));
 end;
 
+initialization
+  Logger:= TInterfacedLogger.Create;
 end.
 

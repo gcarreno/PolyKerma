@@ -102,7 +102,7 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <Units Count="10">
+    <Units Count="12">
       <Unit0>
         <Filename Value="polykermacli.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -131,6 +131,7 @@
       <Unit5>
         <Filename Value="../../src/modules/polykerma.modules.interfaces.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="PolyKerma.Modules.Interfaces"/>
       </Unit5>
       <Unit6>
         <Filename Value="../../src/modules/polykerma.modules.module.pas"/>
@@ -150,6 +151,16 @@
         <Filename Value="../../src/threading/polykerma.threading.thread.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit9>
+      <Unit10>
+        <Filename Value="../../src/logging/polykerma.logging.interfaces.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PolyKerma.Logging.Interfaces"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="../../src/logging/polykerma.logging.logger.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PolyKerma.Logging.Logger"/>
+      </Unit11>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

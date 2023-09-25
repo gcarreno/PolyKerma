@@ -20,12 +20,12 @@ uses
   {$ENDIF FPC_DOTTEDUNITS}
 , CustApp
   { you can add units after this }
-  // Logger
-, PolyKerma.Logger
+  // Logging
+, PolyKerma.Logging
 
-  // Dispatcher
-, PolyKerma.Dispatcher.Interfaces
-, PolyKerma.Dispatcher
+  // Dispatching
+, PolyKerma.Dispatching.Interfaces
+, PolyKerma.Dispatching.Dispatcher
 
   // Modules
 , PolyKerma.Modules.Interfaces
@@ -70,7 +70,7 @@ begin
   // quick check parameters
   ErrorOptions:= CheckOptions('h', 'help');
   if ErrorOptions <> '' then begin
-    DebugLn({$I %FILE%}, {$I %LINE%}, ErrorOptions);
+    Debug({$I %FILE%}, {$I %LINE%}, ErrorOptions);
     Terminate;
     Exit;
   end;

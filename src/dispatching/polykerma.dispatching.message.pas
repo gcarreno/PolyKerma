@@ -21,8 +21,12 @@ type
   TInterfacedMessage = class(TInterfacedObject, IMessage)
   private
     FChannel: String;
+    FPayload: String;
 
     function GetChannel: String;
+    function GetPayload: String;
+    procedure SetPayload(const APayload: String);
+
   protected
   public
     constructor Create(const AChannel: String);
@@ -30,6 +34,9 @@ type
 
     property Channel: String
       read GetChannel;
+    property Payload: String
+      read GetPayload
+      write SetPayload;
   published
   end;
   TInterfacedMessageClass = class of TInterfacedMessage;
@@ -43,15 +50,26 @@ begin
   Result:= FChannel;
 end;
 
+function TInterfacedMessage.GetPayload: String;
+begin
+  Result:= FPayload;
+end;
+
+procedure TInterfacedMessage.SetPayload(const APayload: String);
+begin
+  if FPayload = APayload then exit;
+  FPayload:= APayload;
+end;
+
 constructor TInterfacedMessage.Create(const AChannel: String);
 begin
-  DebugLn({$I %FILE%}, {$I %LINE%}, Format('Message Create: %s', [ AChannel ]));
+  Debug({$I %FILE%}, {$I %LINE%}, Format('Message Create: %s', [ AChannel ]));
   FChannel:= AChannel;
 end;
 
 destructor TInterfacedMessage.Destroy;
 begin
-  DebugLn({$I %FILE%}, {$I %LINE%}, 'Message Destroy');
+  Debug({$I %FILE%}, {$I %LINE%}, 'Message Destroy');
   inherited Destroy;
 end;
 

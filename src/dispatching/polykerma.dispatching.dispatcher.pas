@@ -14,7 +14,7 @@ uses
 {$ENDIF FPC_DOTTEDUNITS}
 //, contnrs
 , PolyKerma.Logging
-, PolyKerma.Dispatcher.Interfaces
+, PolyKerma.Dispatching.Interfaces
 //, PolyKerma.Dispatching
 , PolyKerma.Modules.Interfaces
 ;
@@ -24,6 +24,8 @@ type
   TInterfacedDispatcher = class(TInterfacedObject, IDispatcher)
   private
     FMessageList: IInterfaceList;
+
+    procedure ProcessMessage(const AMessage: IMessage);
   protected
   public
     constructor Create;
@@ -41,26 +43,34 @@ implementation
 
 constructor TInterfacedDispatcher.Create;
 begin
-  DebugLn({$I %FILE%}, {$I %LINE%}, 'Dispatcher Create');
+  Debug({$I %FILE%}, {$I %LINE%}, 'Dispatcher Create');
   FMessageList:= TInterfaceList.Create;
 end;
 
 destructor TInterfacedDispatcher.Destroy;
 begin
-  DebugLn({$I %FILE%}, {$I %LINE%}, 'Dispatcher Destroy');
+  Debug({$I %FILE%}, {$I %LINE%}, 'Dispatcher Destroy');
   inherited Destroy;
+end;
+
+procedure TInterfacedDispatcher.ProcessMessage(const AMessage: IMessage);
+begin
+  Debug({$I %FILE%}, {$I %LINE%}, Format('Dispatcher Process Message: %s', [
+    AMessage.Channel
+  ]));
+  //
 end;
 
 function TInterfacedDispatcher.Register(const AChannel: String;
   const AModule: IModule): Boolean;
 begin
-  DebugLn({$I %FILE%}, {$I %LINE%}, 'Dispatcher Register');
+  Debug({$I %FILE%}, {$I %LINE%}, 'Dispatcher Register');
   Result:= false;
 end;
 
 procedure TInterfacedDispatcher.Post(const AMessage: IMessage);
 begin
-  DebugLn({$I %FILE%}, {$I %LINE%}, Format('Dispatcher Post: %s', [
+  Debug({$I %FILE%}, {$I %LINE%}, Format('Dispatcher Post: %s', [
     AMessage.Channel
   ]));
   FMessageList.Add(AMessage);
