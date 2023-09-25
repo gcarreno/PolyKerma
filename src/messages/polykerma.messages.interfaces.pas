@@ -12,6 +12,9 @@ type
 { IMessage }
   IMessage = Interface
   ['{62E0D2A6-6AEE-42DF-BADD-D210BA7A2BD1}']
+    function GetChannel: String;
+    property Channel: String
+      read GetChannel;
   end;
 
 implementation

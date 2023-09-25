@@ -6,7 +6,11 @@ interface
 
 uses
   Classes
+, PolyKerma.Logger
+, PolyKerma.Dispatcher.Common
 , PolyKerma.Dispatcher.Interfaces
+//, PolyKerma.Messages.Interfaces
+, PolyKerma.Messages.Message
 , PolyKerma.Modules.Interfaces
 ;
 
@@ -30,12 +34,16 @@ implementation
 
 constructor TInterfacedModule.Create(const ADispatcher: IDispatcher);
 begin
+  DebugLn({$I %FILE%}, {$I %LINE%}, 'Module Create');
   FDispatcher:= ADispatcher;
+  FDispatcher.Register(cDispatcherChannelModuleIn, Self);
+  { #todo -ogcarreno -cexample : Remove after testing }
+  FDispatcher.Post(TInterfacedMessage.Create(cDispatcherChannelModelOut));
 end;
 
 destructor TInterfacedModule.Destroy;
 begin
-  FDispatcher:= nil;
+  DebugLn({$I %FILE%}, {$I %LINE%}, 'Module Destroy');
   inherited Destroy;
 end;
 

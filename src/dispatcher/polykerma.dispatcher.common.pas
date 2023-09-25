@@ -16,6 +16,10 @@ const
   cDispatcherChannelModelOut      = 'model.out';
   cDispatcherChannelModelIn       = 'model.in';
 
+  { #todo -ogcarreno -cexample : Remove after testing }
+  cDispatcherChannelModuleOut      = 'module.out';
+  cDispatcherChannelModuleIn       = 'module.in';
+
 implementation
 
 end.

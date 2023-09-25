@@ -20,9 +20,16 @@ uses
   {$ENDIF FPC_DOTTEDUNITS}
 , CustApp
   { you can add units after this }
+  // Logger
 , PolyKerma.Logger
+
+  // Dispatcher
 , PolyKerma.Dispatcher.Interfaces
 , PolyKerma.Dispatcher
+
+  // Modules
+, PolyKerma.Modules.Interfaces
+, PolyKerma.Modules.Module
 ;
 
 type
@@ -33,6 +40,8 @@ type
     FDispatcher: IDispatcher;
 
     procedure LoadParams;
+    procedure PolyKermaSetup;
+    procedure PolyKermaTearDown;
   protected
     procedure DoRun; override;
   public
@@ -74,6 +83,20 @@ begin
   end;
 end;
 
+procedure TPolyKermaCLI.PolyKermaSetup;
+var
+  module: IModule;
+begin
+  FDispatcher:= TInterfacedDispatcher.Create;
+  module:= TInterfacedModule.Create(FDispatcher);
+  module:= nil;
+end;
+
+procedure TPolyKermaCLI.PolyKermaTearDown;
+begin
+  // Not quite sure I'll need this, but just in case...
+end;
+
 procedure TPolyKermaCLI.WriteHelp;
 begin
   { add your help code here }
@@ -84,7 +107,7 @@ procedure TPolyKermaCLI.DoRun;
 begin
   LoadParams;
 
-  FDispatcher:= TInterfacedDispatcher.Create;
+  PolyKermaSetup;
 
   // stop program loop
   Terminate;

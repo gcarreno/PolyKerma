@@ -24,13 +24,13 @@ implementation
 
 procedure DebugLn(const AMessage: String);
 begin
-  WriteLn(Format('%s %s', [ DateToISO8601(Now), AMessage ]));
+  WriteLn(Format('%s INFO: %s', [ DateToISO8601(Now), AMessage ]));
 end;
 
 procedure DebugLn(const ASourceFile: String; const ASourceLine: String;
   const AMessage: String);
 begin
-  DebugLn(Format('%s(%s) %s', [ ASourceFile, ASourceLine, AMessage ]));
+  DebugLn(Format('%s:%s %s', [ ASourceFile, ASourceLine, AMessage ]));
 end;
 
 end.
