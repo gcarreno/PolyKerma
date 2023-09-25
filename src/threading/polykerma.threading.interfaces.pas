@@ -1,11 +1,15 @@
-unit PolyKerma.Threads.Interfaces;
+unit PolyKerma.Threading.Interfaces;
 
 {$mode ObjFPC}{$H+}
 
 interface
 
 uses
+{$IFDEF FPC_DOTTEDUNITS}
+  System.Classes
+{$ELSE FPC_DOTTEDUNITS}
   Classes
+{$ENDIF FPC_DOTTEDUNITS}
 ;
 
 type

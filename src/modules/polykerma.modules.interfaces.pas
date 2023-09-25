@@ -5,7 +5,11 @@ unit PolyKerma.Modules.Interfaces;
 interface
 
 uses
+{$IFDEF FPC_DOTTEDUNITS}
+  System.Classes
+{$ELSE FPC_DOTTEDUNITS}
   Classes
+{$ENDIF FPC_DOTTEDUNITS}
 ;
 
 type

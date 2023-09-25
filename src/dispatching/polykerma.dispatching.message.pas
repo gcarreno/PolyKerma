@@ -1,14 +1,19 @@
-unit PolyKerma.Messages.Message;
+unit PolyKerma.Dispatching.Message;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
+{$IFDEF FPC_DOTTEDUNITS}
+  System.Classes
+, System.SysUtils
+{$ELSE FPC_DOTTEDUNITS}
   Classes
 , SysUtils
-, PolyKerma.Logger
-, PolyKerma.Messages.Interfaces
+{$ENDIF FPC_DOTTEDUNITS}
+, PolyKerma.Logging
+, PolyKerma.Dispatching.Interfaces
 ;
 
 type

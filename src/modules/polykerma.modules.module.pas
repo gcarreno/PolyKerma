@@ -5,7 +5,11 @@ unit PolyKerma.Modules.Module;
 interface
 
 uses
+{$IFDEF FPC_DOTTEDUNITS}
+  System.Classes
+{$ELSE FPC_DOTTEDUNITS}
   Classes
+{$ENDIF FPC_DOTTEDUNITS}
 , PolyKerma.Logger
 , PolyKerma.Dispatcher.Common
 , PolyKerma.Dispatcher.Interfaces

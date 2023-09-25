@@ -25,7 +25,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../src/logger;../../src/dispatcher;../../src/modules;../../src/messages;../../src/threads"/>
+            <OtherUnitFiles Value="../../src/logging;../../src/dispatching;../../src/modules;../../src/threading"/>
             <UnitOutputDirectory Value="../../bin/lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -51,6 +51,9 @@
             </Debugging>
           </Linking>
           <Other>
+            <CompilerMessages>
+              <IgnoredMessages idx5024="True"/>
+            </CompilerMessages>
             <ConfigFile>
               <WriteConfigFilePath Value=""/>
             </ConfigFile>
@@ -65,7 +68,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../src/logger;../../src/dispatcher;../../src/modules;../../src/messages;../../src/threads"/>
+            <OtherUnitFiles Value="../../src/logging;../../src/dispatching;../../src/modules;../../src/threading"/>
             <UnitOutputDirectory Value="../../bin/lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -82,6 +85,9 @@
             <LinkSmart Value="True"/>
           </Linking>
           <Other>
+            <CompilerMessages>
+              <IgnoredMessages idx5024="True"/>
+            </CompilerMessages>
             <ConfigFile>
               <WriteConfigFilePath Value=""/>
             </ConfigFile>
@@ -96,31 +102,31 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <Units Count="11">
+    <Units Count="10">
       <Unit0>
         <Filename Value="polykermacli.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PolyKermaCLI"/>
       </Unit0>
       <Unit1>
-        <Filename Value="../../src/logger/polykerma.logger.pas"/>
+        <Filename Value="../../src/logging/polykerma.logging.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="PolyKerma.Logger"/>
+        <UnitName Value="PolyKerma.Logging"/>
       </Unit1>
       <Unit2>
-        <Filename Value="../../src/dispatcher/polykerma.dispatcher.common.pas"/>
+        <Filename Value="../../src/dispatching/polykerma.dispatching.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="PolyKerma.Dispatcher.Common"/>
+        <UnitName Value="PolyKerma.Dispatching"/>
       </Unit2>
       <Unit3>
-        <Filename Value="../../src/dispatcher/polykerma.dispatcher.interfaces.pas"/>
+        <Filename Value="../../src/dispatching/polykerma.dispatching.interfaces.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="PolyKerma.Dispatcher.Interfaces"/>
+        <UnitName Value="PolyKerma.Dispatching.Interfaces"/>
       </Unit3>
       <Unit4>
-        <Filename Value="../../src/dispatcher/polykerma.dispatcher.pas"/>
+        <Filename Value="../../src/dispatching/polykerma.dispatching.dispatcher.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="PolyKerma.Dispatcher"/>
+        <UnitName Value="PolyKerma.Dispatching.Dispatcher"/>
       </Unit4>
       <Unit5>
         <Filename Value="../../src/modules/polykerma.modules.interfaces.pas"/>
@@ -132,23 +138,18 @@
         <UnitName Value="PolyKerma.Modules.Module"/>
       </Unit6>
       <Unit7>
-        <Filename Value="../../src/messages/polykerma.messages.interfaces.pas"/>
+        <Filename Value="../../src/dispatching/polykerma.dispatching.message.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="PolyKerma.Messages.Interfaces"/>
+        <UnitName Value="PolyKerma.Dispatching.Message"/>
       </Unit7>
       <Unit8>
-        <Filename Value="../../src/messages/polykerma.messages.message.pas"/>
+        <Filename Value="../../src/threading/polykerma.threading.interfaces.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="PolyKerma.Messages.Message"/>
       </Unit8>
       <Unit9>
-        <Filename Value="../../src/threads/polykerma.threads.interfaces.pas"/>
+        <Filename Value="../../src/threading/polykerma.threading.thread.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit9>
-      <Unit10>
-        <Filename Value="../../src/threads/polykerma.threads.thread.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit10>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -158,10 +159,13 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../src/logger;../../src/dispatcher;../../src/modules;../../src/messages;../../src/threads"/>
+      <OtherUnitFiles Value="../../src/logging;../../src/dispatching;../../src/modules;../../src/threading"/>
       <UnitOutputDirectory Value="../../bin/lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Other>
+      <CompilerMessages>
+        <IgnoredMessages idx5024="True"/>
+      </CompilerMessages>
       <ConfigFile>
         <WriteConfigFilePath Value=""/>
       </ConfigFile>

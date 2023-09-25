@@ -1,4 +1,4 @@
-unit PolyKerma.Logger;
+unit PolyKerma.Logging;
 
 {$mode ObjFPC}{$H+}
 

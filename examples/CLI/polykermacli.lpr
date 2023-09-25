@@ -89,7 +89,6 @@ var
 begin
   FDispatcher:= TInterfacedDispatcher.Create;
   module:= TInterfacedModule.Create(FDispatcher);
-  module:= nil;
 end;
 
 procedure TPolyKermaCLI.PolyKermaTearDown;
