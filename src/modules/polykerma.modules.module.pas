@@ -27,8 +27,8 @@ type
     FMessageList: TFPObjectList;
     FThreadProcessMessages: TThreadProcessMessages;
 
-    procedure ProcessMessage(const AMessage: TMessage); virtual;
   protected
+    procedure ProcessMessage(const AMessage: TMessage); virtual;
   public
     constructor Create(const ADispatcher: TObject);
     destructor Destroy; override;
@@ -62,8 +62,6 @@ begin
   );
   FThreadProcessMessages.FreeOnterminate:= False;
   FThreadProcessMessages.Start;
-  // Register
-  //(FDispatcher as TDispatcher).Register(cChannelModuleIn, Self);
 end;
 
 destructor TModule.Destroy;
