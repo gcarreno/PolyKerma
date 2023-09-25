@@ -1,6 +1,6 @@
-unit PolyKerma.Dispatching.Interfaces;
+unit PolyKerma.Dispatching.Message.Interfaces;
 
-{$mode objfpc}{$H+}
+{$mode ObjFPC}{$H+}
 
 interface
 
@@ -10,7 +10,6 @@ uses
 {$ELSE FPC_DOTTEDUNITS}
   Classes
 {$ENDIF FPC_DOTTEDUNITS}
-, PolyKerma.Modules.Interfaces
 ;
 
 type
@@ -29,14 +28,8 @@ type
       write SetPayload;
   end;
 
-{ IDispatcher }
-  IDispatcher = Interface
-  ['{1CD54522-D37B-486E-9181-A97CCF768DE9}']
-    function Register(const AChannel: String; const AModule: IModule): Boolean;
-    procedure Post(const AMessage: IMessage);
-    procedure ProcessMessage(const AMessage: IMessage);
-  end;
 
 implementation
 
 end.
+

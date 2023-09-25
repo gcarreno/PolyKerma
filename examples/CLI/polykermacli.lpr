@@ -24,7 +24,7 @@ uses
 , PolyKerma.Logging
 
   // Dispatching
-, PolyKerma.Dispatching.Interfaces
+, PolyKerma.Dispatching.Dispatcher.Interfaces
 , PolyKerma.Dispatching.Dispatcher
 
   // Modules
@@ -71,7 +71,7 @@ begin
   ErrorOptions:= CheckOptions('h', 'help');
   if ErrorOptions <> '' then begin
     Debug({$I %FILE%}, {$I %LINE%}, ErrorOptions);
-    Terminate;
+    Terminate(1);
     Exit;
   end;
 
@@ -99,7 +99,7 @@ end;
 procedure TPolyKermaCLI.WriteHelp;
 begin
   { add your help code here }
-  WriteLn('Usage: polykerma [-h|--help]');
+  WriteLn('Usage: polykermacli [-h|--help]');
 end;
 
 procedure TPolyKermaCLI.DoRun;
@@ -107,6 +107,8 @@ begin
   LoadParams;
 
   PolyKermaSetup;
+
+  FDispatcher.Run(True);
 
   // stop program loop
   Terminate;

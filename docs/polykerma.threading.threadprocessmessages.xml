@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fpdoc-descriptions>
+  <package name="PolyKerma">
+    <module name="PolyKerma.Threading.ThreadProcessMessages">
+      <element name="TProcedureProcessMessages">
+        <short>Event procedure to call the Dispatcher or Module ProcessMessages member.</short>
+      </element>
+    </module>
+  </package>
+</fpdoc-descriptions>

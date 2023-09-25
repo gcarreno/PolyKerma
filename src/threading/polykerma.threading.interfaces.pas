@@ -15,12 +15,18 @@ uses
 type
 { IThread }
   IThread = interface
-    ['{5D340B25-31E7-40C3-A5AB-8AFE68AA31C0}']
+    ['{EAA30789-6A3B-47FB-B6D7-20338C8E5F89}']
 
     procedure Start;
     procedure Resume;
     procedure Terminate;
     function WaitFor: Integer;
+
+  end;
+
+{ IThreadProcessMessages }
+  IThreadProcessMessages = interface(IThread)
+    ['{4F58FD48-C5DA-4DC4-960F-A9FEA4591C79}']
 
   end;
 

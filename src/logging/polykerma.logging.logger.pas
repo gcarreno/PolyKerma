@@ -26,6 +26,7 @@ type
     procedure Log(const ALogType: TLogType; const AMessage: String);
   published
   end;
+  TInterfacedLoggerClass = class of TInterfacedLogger;
 
 implementation
 
