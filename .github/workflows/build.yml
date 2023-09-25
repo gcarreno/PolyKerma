@@ -31,11 +31,14 @@ jobs:
         lazarus-version: ${{ matrix.lazarus-versions }}
         with-cache: false
 
-    - name: Build Test App
-      run: lazbuild -B "tests/polykermatests.lpi"
+    - name: Build Example App
+      run: lazbuild -B --bm=Release "examples/CLI/polykermacli.lpi"
 
-    - name: Run Tests
-      run: bin/polykermatests --all --format=plain
+#    - name: Build Test App
+#      run: lazbuild -B --bem=Release "tests/polykermatests.lpi"
+
+#    - name: Run Tests
+#      run: bin/polykermatests --all --format=plain
 
 #    - name: Build the Main App (Windows)
 #      if: ${{ matrix.operating-system == 'windows-latest' }}

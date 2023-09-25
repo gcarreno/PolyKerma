@@ -10,6 +10,7 @@ uses
 , fpcunit
 //, testutils
 , testregistry
+, PolyKerma.Dispatcher.Common
 , PolyKerma.Messages.Interfaces
 , PolyKerma.Messages.Message
 ;
@@ -29,7 +30,7 @@ implementation
 
 procedure TTestMessages.TestMessageCreate;
 begin
-  FMessage:= TInterfacedMessage.Create;
+  FMessage:= TInterfacedMessage.Create(cDispatcherChannelModuleIn);
   AssertNotNull('Message not null', FMessage);
 end;
 
