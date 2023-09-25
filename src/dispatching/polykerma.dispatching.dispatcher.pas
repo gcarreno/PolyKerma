@@ -24,7 +24,6 @@ type
 { TDispatcher }
   TDispatcher = class(TObject)
   private
-    FMessagesCriticalSection: TCriticalSection;
     FMessageList: TFPObjectList;
     FChannelsCriticalSection: TCriticalSection;
     FChannelList: TFPHashObjectList;
@@ -40,6 +39,7 @@ type
     function Register(const AChannel: String; const AModule: TModule): Boolean;
     procedure Run(const WaitFor: Boolean);
     procedure Terminate;
+
   published
   end;
   TDispatcherClass = class of TDispatcher;
@@ -52,7 +52,6 @@ constructor TDispatcher.Create;
 begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Dispatcher Create');
   // Messages
-  FMessagesCriticalSection:= TCriticalSection.Create;
   FMessageList:= TFPObjectList.Create;
   FMessageList.OwnsObjects:= True;
   // Channels
@@ -83,7 +82,6 @@ begin
   // Messages
   FMessageList.Clear;
   FMessageList.Free;
-  FMessagesCriticalSection.Free;
   inherited Destroy;
 end;
 
@@ -123,7 +121,9 @@ begin
   except
     on E: Exception do
     begin
-      Error({$I %FILE%}, {$I %LINE%}, 'Dispatcher Register');
+      Error({$I %FILE%}, {$I %LINE%}, Format('Dispatcher Register: %s', [
+        E.Message
+      ]));
       Result:= False;
     end;
   end;
@@ -145,7 +145,12 @@ begin
   Debug({$I %FILE%}, {$I %LINE%}, Format('Dispatcher Post: %s', [
     AMessage.Channel
   ]));
-  FMessageList.Add(AMessage);
+  FThreadProcessMessages.MessagesCriticalSection.Acquire;
+  try
+    FMessageList.Add(AMessage);
+  finally
+    FThreadProcessMessages.MessagesCriticalSection.Release;
+  end;
 end;
 
 end.

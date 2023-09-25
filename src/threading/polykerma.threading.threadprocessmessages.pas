@@ -24,7 +24,7 @@ type
   TThreadProcessMessages = class(TThread)
   private
     FProcedureProcessMessages: TProcedureProcessMessages;
-    FListCriticalSection: TCriticalSection;
+    FMessagesCriticalSection: TCriticalSection;
     FMessageList: TFPObjectList;
   protected
     procedure Execute; override;
@@ -35,6 +35,9 @@ type
       const CreateSuspended: Boolean
     );
     destructor Destroy; override;
+
+    property MessagesCriticalSection: TCriticalSection
+      read FMessagesCriticalSection;
   published
   end;
   TThreadProcessingMessagesClass = class of TThreadProcessMessages;
@@ -51,7 +54,7 @@ constructor TThreadProcessMessages.Create(
 begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Thread Process Messages Create');
   FProcedureProcessMessages:= AProcedureProcessMessages;
-  FListCriticalSection:= TCriticalSection.Create;
+  FMessagesCriticalSection:= TCriticalSection.Create;
   FMessageList:= AMessageList;
   inherited Create(CreateSuspended);
 end;
@@ -59,7 +62,7 @@ end;
 destructor TThreadProcessMessages.Destroy;
 begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Thread Process Messages Destroy');
-  FListCriticalSection.Free;
+  FMessagesCriticalSection.Free;
   inherited Destroy;
 end;
 
@@ -70,7 +73,7 @@ begin
   Debug({$I %FILE%}, {$I %LINE%}, 'Thread Process Messages Execute');
   while not Terminated do
   begin
-    FListCriticalSection.Acquire;
+    FMessagesCriticalSection.Acquire;
     try
       if FMessageList.Count > 0 then
       begin
@@ -81,7 +84,7 @@ begin
       end;
       Sleep(1);
     finally
-      FListCriticalSection.Release;
+      FMessagesCriticalSection.Release;
     end;
   end;
 end;
