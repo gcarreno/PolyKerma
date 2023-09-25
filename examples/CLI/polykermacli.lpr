@@ -192,16 +192,19 @@ procedure TPolyKermaCLI.DoRun;
 begin
   LoadParams;
 
-  PolyKermaSetup;
-  {$IFDEF UNIX}
-  if FpSignal(SigInt, @HandleSigInt) = signalhandler(SIG_ERR) then begin
-    Error({$I %FILE%}, {$I %LINE%}, Format('Failed to install signal error: %d', [ fpGetErrno ]));
-    Halt(1);
-  end;
-  {$ENDIF UNIX}
+  if not Terminated then
+  begin
+    PolyKermaSetup;
+    {$IFDEF UNIX}
+    if FpSignal(SigInt, @HandleSigInt) = signalhandler(SIG_ERR) then begin
+      Error({$I %FILE%}, {$I %LINE%}, Format('Failed to install signal error: %d', [ fpGetErrno ]));
+      Halt(1);
+    end;
+    {$ENDIF UNIX}
 
-  FDispatcher.Run(True);
-  PolyKermaTearDown;
+    FDispatcher.Run(True);
+    PolyKermaTearDown;
+  end;
 
   // stop program loop
   Terminate;
