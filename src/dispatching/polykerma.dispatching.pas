@@ -13,6 +13,7 @@ interface
 ;*)
 
 const
+  cChannelNone          = 'none';
   cChannelControllerOut = 'controller.out';
   cChannelControllerIn  = 'controller.in';
   cChannelCommsOut      = 'comms.out';
