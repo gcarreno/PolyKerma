@@ -98,13 +98,13 @@ var
 begin
   FDispatcher:= TDispatcher.Create;
 
-  module:= TModule.Create(FDispatcher);
+  module:= TModule.Create(@FDispatcher.Post);
   // Registering outside the constructor just for the base class
   FDispatcher.Register(cChannelModuleIn, module);
-  module:= TModule.Create(FDispatcher);
+  module:= TModule.Create(@FDispatcher.Post);
   // Registering outside the constructor just for the base class
   FDispatcher.Register(cChannelModuleIn, module);
-  module:= TModule.Create(FDispatcher);
+  module:= TModule.Create(@FDispatcher.Post);
   // Registering outside the constructor just for the base class
   FDispatcher.Register(cChannelModuleIn, module);
 
@@ -117,38 +117,6 @@ begin
   FDispatcher.Register(cChannelCommsIn, commsModule);*)
 
   { #todo -ogcarreno -cPolyKerma.Example : Needs removing after tests are done }
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
-  message:= TMessage.Create(cChannelModuleIn);
-  FDispatcher.Post(message);
   message:= TMessage.Create(cChannelModuleIn);
   FDispatcher.Post(message);
   message:= TMessage.Create(cChannelModuleIn);

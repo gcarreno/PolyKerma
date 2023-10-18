@@ -60,6 +60,7 @@ begin
   FChannelList.OwnsObjects:= True;
   // Message Thread
   FThreadProcessMessages:= TThreadProcessMessages.Create(
+    'Dispatcher',
     @ProcessMessage,
     FMessageList,
     True
@@ -104,7 +105,10 @@ begin
       begin
         module:= modules[indexModules] as TModule;
         message:= AMessage.Copy;
+        Debug({$I %FILE%}, {$I %LINE%}, 'Dispatch Process Message: About to call Receive on module');
         module.Receive(message);
+        message.Free;
+        Debug({$I %FILE%}, {$I %LINE%}, 'Dispatch Process Message: Done calling Receive on module');
       end;
     end;
   finally

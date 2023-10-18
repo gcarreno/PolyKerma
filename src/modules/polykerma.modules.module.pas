@@ -22,15 +22,15 @@ type
 { TModule }
   TModule = class(TObject)
   private
-    FDispatcher: TObject;
     FMessageList: TFPObjectList;
+    FDispatcherPost: TProcedureProcessMessages;
     FThreadProcessMessages: TThreadProcessMessages;
     FName: String;
 
   protected
     procedure ProcessMessage(const AMessage: TMessage); virtual;
   public
-    constructor Create(const ADispatcher: TObject);
+    constructor Create(const ADispatcherPost: TProcedureProcessMessages);
     destructor Destroy; override;
 
     procedure Receive(const AMessage: TMessage);
@@ -49,17 +49,18 @@ implementation
 
 { TDispatcher }
 
-constructor TModule.Create(const ADispatcher: TObject);
+constructor TModule.Create(const ADispatcherPost: TProcedureProcessMessages);
 begin
   FName:= 'Base Module';
   Debug({$I %FILE%}, {$I %LINE%}, Format('Module Create: "%s"', [ FName ]));
   // Dispatcher
-  FDispatcher:= ADispatcher;
+  FDispatcherPost:= ADispatcherPost;
   // Messages
   FMessageList:= TFPObjectList.Create;
   FMessageList.OwnsObjects:= True;
   // Message Thread
   FThreadProcessMessages:= TThreadProcessMessages.Create(
+    FName,
     @ProcessMessage,
     FMessageList,
     True
@@ -95,7 +96,12 @@ begin
     FName,
     AMessage.Channel
   ]));
-  FMessageList.Add(AMessage);
+  FThreadProcessMessages.MessagesCriticalSection.Acquire;
+  try
+    FMessageList.Add(AMessage.Copy);
+  finally
+    FThreadProcessMessages.MessagesCriticalSection.Release;
+  end;
 end;
 
 end.
